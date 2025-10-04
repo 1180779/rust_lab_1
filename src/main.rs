@@ -58,7 +58,6 @@ fn main() {
         println!("\nSelect one of the modes:");
         println!("[acc] - accumulator for numbers");
         println!("[wrd] - word builder");
-        println!("[eml] - email checker");
         println!("Enter your choice: ");
         let mut mode_input = String::new();
         io::stdin()
@@ -68,14 +67,47 @@ fn main() {
 
         match mode_input.as_str() {
             "acc" => {
-                println!("Accumulator");
+                println!("Selected Accumulator. Input numbers to sum. 0 ends.");
+                let mut sum = 0;
+                loop {
+                    input.clear();
+                    io::stdin()
+                        .read_line(&mut input)
+                        .expect("Failed to read line");
+                    let number = input.trim().parse::<i32>();
+                    match number {
+                        Ok(num) => match num {
+                            0 => break,
+                            _ => sum += num,
+                        },
+                        Err(_) => {
+                            println!("Not a valid number");
+                        }
+                    }
+                }
+                println!("Sum: {}", sum);
+                if sum == 666 {
+                    break 'outer (String::from("devil was summoned"), 666);
+                }
             }
             "wrd" => {
-                println!("Word builder");
-            }
-            "eml" => {
-                println!("Email checker");
-                break 'outer (String::from("acc"), 12);
+                println!("Selected Word builder. Input words. Empty line ends.");
+                let mut word = String::new();
+                loop {
+                    input.clear();
+                    io::stdin()
+                        .read_line(&mut input)
+                        .expect("Failed to read line");
+                    let input = input.trim();
+                    if input.is_empty() {
+                        break;
+                    }
+                    word.push_str(input);
+                }
+                println!("Word: {}", word);
+                if word == "UFO" {
+                    break 'outer (String::from("UFO appeared on the sky!"), 1974);
+                }
             }
             _ => {
                 println!("invalid mode selected. Try again.");
@@ -84,7 +116,10 @@ fn main() {
         };
     };
 
-    println!("tuple = {:?}", tuple);
+    println!(
+        "An emergency: '{}', The emergency code is: {}",
+        tuple.0, tuple.1
+    );
 }
 
 fn exponents(x: u64) -> [u64; 10] {
