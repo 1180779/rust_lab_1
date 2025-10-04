@@ -1,12 +1,11 @@
-use rand;
 use rand::Rng;
 use std::fs::File;
 use std::io;
 use std::io::Write;
 
-fn main() -> std::io::Result<()> {
+fn main() {
     let mut input: String;
-    let mut file = File::create("foo.txt")?;
+    let mut file = File::create("foo.txt").expect("File not created!");
 
     let exited_on_error = loop {
         println!("Podaj liczbę: ");
@@ -42,7 +41,7 @@ fn main() -> std::io::Result<()> {
                 number, x, arr, colatz_arr
             )
             .as_bytes(),
-        )?;
+        ).expect("Failed to write to file!");
     };
 
     if exited_on_error {
@@ -52,15 +51,18 @@ fn main() -> std::io::Result<()> {
     }
 
     // my own functionality that returns a tuple with different types directly from the inner loop
-
-    Ok(())
+    // let tuple: (String, i32) = 'outer: loop {
+    //     loop {
+    //         break 'outer (String::from("123123"), 12);
+    //     }
+    // };
 }
 
 fn exponents(x: u64) -> [u64; 10] {
-    let mut arr: [u64; 10] = [0; 10];
+    let mut arr = [0; 10];
     let mut c = x;
-    for i in 0..arr.len() {
-        arr[i] = c;
+    for item in arr.iter_mut() {
+        *item = c;
         c *= x;
     }
     arr
