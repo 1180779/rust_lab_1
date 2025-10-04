@@ -41,7 +41,8 @@ fn main() {
                 number, x, arr, colatz_arr
             )
             .as_bytes(),
-        ).expect("Failed to write to file!");
+        )
+        .expect("Failed to write to file!");
     };
 
     if exited_on_error {
@@ -51,11 +52,39 @@ fn main() {
     }
 
     // my own functionality that returns a tuple with different types directly from the inner loop
-    // let tuple: (String, i32) = 'outer: loop {
-    //     loop {
-    //         break 'outer (String::from("123123"), 12);
-    //     }
-    // };
+    println!("\n\n--------------------------------------");
+    println!("Custom functionality.");
+    let tuple: (String, i32) = 'outer: loop {
+        println!("\nSelect one of the modes:");
+        println!("[acc] - accumulator for numbers");
+        println!("[wrd] - word builder");
+        println!("[eml] - email checker");
+        println!("Enter your choice: ");
+        let mut mode_input = String::new();
+        io::stdin()
+            .read_line(&mut mode_input)
+            .expect("Failed to read line");
+        mode_input = mode_input.trim().to_string();
+
+        match mode_input.as_str() {
+            "acc" => {
+                println!("Accumulator");
+            }
+            "wrd" => {
+                println!("Word builder");
+            }
+            "eml" => {
+                println!("Email checker");
+                break 'outer (String::from("acc"), 12);
+            }
+            _ => {
+                println!("invalid mode selected. Try again.");
+                continue;
+            }
+        };
+    };
+
+    println!("tuple = {:?}", tuple);
 }
 
 fn exponents(x: u64) -> [u64; 10] {
