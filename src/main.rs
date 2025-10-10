@@ -5,7 +5,7 @@ use std::io::Write;
 
 fn main() {
     let mut input: String;
-    let mut file = File::create("foo.txt").expect("File not created!");
+    let mut file = File::create("xyz.txt").expect("File not created!");
 
     let exited_on_error = loop {
         println!("Podaj liczbę: ");
@@ -35,14 +35,16 @@ fn main() {
         println!("colatz_arr = {:?}", colatz_arr);
 
         // write all to file
-        file.write_all(
+        let wres = file.write_all(
             format!(
-                "number = {}\nx = {}\narr = {:?}\ncoltz_arr = {:?}\n\n",
-                number, x, arr, colatz_arr
+                "{:?}\n",
+                colatz_arr
             )
             .as_bytes(),
-        )
-        .expect("Failed to write to file!");
+        );
+        if wres.is_err() {
+            break true;
+        }
     };
 
     if exited_on_error {
@@ -86,8 +88,8 @@ fn main() {
                     }
                 }
                 println!("Sum: {}", sum);
-                if sum == 666 {
-                    break 'outer (String::from("devil was summoned"), 666);
+                if sum == 7 {
+                    break 'outer (String::from("Sum is secret number"), 7);
                 }
             }
             "wrd" => {
@@ -106,7 +108,7 @@ fn main() {
                 }
                 println!("Word: {}", word);
                 if word == "UFO" {
-                    break 'outer (String::from("UFO appeared on the sky!"), 1974);
+                    break 'outer (String::from("UFO appeared on the sky"), 1974);
                 }
             }
             _ => {
@@ -117,7 +119,7 @@ fn main() {
     };
 
     println!(
-        "An emergency: '{}', The emergency code is: {}",
+        "Secret is: '{}', Secret code is: {}",
         tuple.0, tuple.1
     );
 }
